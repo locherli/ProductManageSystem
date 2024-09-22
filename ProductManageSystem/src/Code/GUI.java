@@ -1,6 +1,5 @@
 package Code;
-
-
+import java.io.*;
 //java GUI package
 import javax.swing.*;
 import java.awt.*;
@@ -8,24 +7,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GUI extends JFrame {
+    ManageSystem manageSys = new ManageSystem();
 
     public static void startGUI() {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new GUI().setVisible(true);
+                try {
+                    GUI frame = new GUI(); // 创建 JFrame 实例
+                    frame.setVisible(true); // 在 JFrame 实例上调用 setVisible
+                } catch (Exception e) {
+                    // i'm confident about my code
+                    // so there's no need to handle Exception.
+                    System.out.println("error");
+                    System.out.println(e.getMessage());
+                }
             }
         });
     }
 
-
-    public GUI() {
-        setTitle("特产管理系统");
-        setSize(300, 500);
-        setLocationRelativeTo(null); // 居中显示
-        setDefaultCloseOperation(EXIT_ON_CLOSE); // 设置默认关闭操作
-
-        // 创建面板并设置为布局管理器
+    private JPanel createMenuPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(7, 1)); // 7行1列的网格布局
 
@@ -45,30 +46,40 @@ public class GUI extends JFrame {
         panel.add(deleteSpecialty);
         panel.add(exit);
 
-        // 添加面板到窗口
-        add(panel);
-
         // 为每个按钮添加事件监听器
         viewSpecialties.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("查看所有特产");
+                printText(manageSys.products.toString());
             }
         });
 
         searchSpecialty.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("查询特产");
-                // 在这里添加查询特产的逻辑
+                // System.out.println("查询特产");
+                createSearchPanel();
             }
         });
 
         sortSpecialties.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("将特产按价格排序");
-                // 在这里添加按价格排序特产的逻辑
+                // System.out.println("将特产按价格排序");
+                manageSys.products.sort((a, b) -> {
+                    return a.getPrice() - b.getPrice();
+                });
+
+                // create window.
+                JFrame f = new JFrame();
+                f.add(new JLabel("降序排列完成"));
+                Button confirm = new Button();
+                confirm.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        f.dispose();
+                    }
+                });
             }
         });
 
@@ -92,10 +103,64 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("退出");
+                manageSys.saveData();
                 System.exit(0); // 退出程序
             }
         });
+
+        return panel;
     }
 
+    private void createSearchPanel() {
 
+        JFrame frame = new JFrame("输入产品名");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(200, 200);
+
+        frame.setLayout(new FlowLayout()); // 设置布局管理器
+
+        frame.add(new JLabel("输入产品名:"));
+        JTextField field = new JTextField(30);
+        frame.add(field);
+
+        frame.setLocation(600, 200);
+        frame.setVisible(true);
+
+        Button submit = new Button("submit");
+        // 设置按钮的首选大小
+        submit.setPreferredSize(new Dimension(80, 30));
+        submit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String productName = field.getText();
+
+                // invoke the logic code from ManageSystem.
+                Product result = manageSys.searchByName(productName);
+                printText(result.toString());
+                frame.dispose();
+            }
+        });
+        frame.add(submit);
+    }
+
+    private void printText(String str) {
+        JFrame f = new JFrame("result");
+        f.setSize(getPreferredSize());
+        f.add(new JLabel(str));
+    }
+
+    public GUI() {
+        setTitle("特产管理系统");
+        setSize(300, 500);
+        setLocationRelativeTo(null); // 居中显示
+        setDefaultCloseOperation(EXIT_ON_CLOSE); // 设置默认关闭操作
+        // 添加菜单面板到窗口
+        add(createMenuPanel());
+    }
+
+    public static void main(String[] args) throws Exception {
+        //startGUI();
+        GUI gui= new GUI();
+        gui.startGUI();
+    }
 }

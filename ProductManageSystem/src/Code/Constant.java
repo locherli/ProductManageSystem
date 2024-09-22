@@ -2,6 +2,7 @@ package Code;
 
 public class Constant {
     // all the constant value better write in this class
+    final public static Integer CountInfo = 4;
 
     final public static String Food = new String("Food");
     final public static String Snack = new String("Snack");
