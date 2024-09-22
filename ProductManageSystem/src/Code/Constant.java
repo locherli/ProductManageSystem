@@ -1,7 +1,7 @@
 package Code;
 
-public class ConstantValue {
-    //  all the constant value better write in this class
+public class Constant {
+    // all the constant value better write in this class
 
     final public static String Food = new String("Food");
     final public static String Snack = new String("Snack");
@@ -10,6 +10,4 @@ public class ConstantValue {
     final public static String Toy = new String("Toy");
     final public static String Handiwork = new String("Handiwork");
 
-            
-    };
 }
