@@ -51,10 +51,10 @@ public class GUI extends JFrame {
         viewSpecialties.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // if (manageSys.products.isEmpty())
-                //     printText("no data for now.");
-                // else
-                    printText(manageSys.products.toString());
+                if (manageSys.products.isEmpty())
+                    printText("no data for now.");
+                else
+                    printText(manageSys.getProductsInfo());
             }
         });
 
@@ -69,12 +69,7 @@ public class GUI extends JFrame {
         sortSpecialties.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // System.out.println("将特产按价格排序");
-                manageSys.products.sort((a, b) -> {
-                    return a.getPrice() - b.getPrice();
-                });
-
-                printText("降序排序完成");
+                createSortPanel();
             }
         });
 
@@ -106,15 +101,15 @@ public class GUI extends JFrame {
         return panel;
     }
 
-    private void productForm(){
-        
+    private void productForm() {
+
         JFrame frame = new JFrame("添加");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(350, 500);
 
         frame.setLayout(new FlowLayout()); // 设置布局管理器
 
-        //get information from user.
+        // get information from user.
         frame.add(new JLabel("输入产品名:"));
         JTextField nameField = new JTextField(30);
         nameField.setSize(getPreferredSize());
@@ -137,7 +132,7 @@ public class GUI extends JFrame {
 
         frame.setLocation(600, 200);
         frame.setVisible(true);
-        //frame.pack();
+        // frame.pack();
 
         JButton submit = new JButton("submit");
         // 设置按钮的首选大小
@@ -145,7 +140,7 @@ public class GUI extends JFrame {
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Product p=new Product();
+                Product p = new Product();
                 p.setName(nameField.getText());
                 p.setPrice(Integer.valueOf(priceField.getText()));
                 p.setCategory(categoryField.getText());
@@ -157,6 +152,38 @@ public class GUI extends JFrame {
         });
         frame.add(submit);
 
+    }
+
+    private void createSortPanel() {
+        JFrame f = new JFrame("请选择");
+        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        f.setSize(400, 300);
+        f.setLocation(600, 200);
+        f.setLayout(new FlowLayout()); // Use FlowLayout to manage button placement
+
+        JButton button_des = new JButton("按价格降序排序");
+        button_des.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                manageSys.sortByPriceDes();
+                printText("排序完成");
+            }
+        });
+
+        JButton button_asc = new JButton("按价格升序排序"); // Corrected button text
+        button_asc.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                manageSys.sortByPriceAsc();
+                printText("排序完成");
+            }
+        });
+
+        // Add buttons to the frame
+        f.add(button_des);
+        f.add(button_asc);
+
+        f.setVisible(true); // Set visibility after adding components
     }
 
     private void createSearchPanel() {
@@ -185,22 +212,33 @@ public class GUI extends JFrame {
 
                 // invoke the logic code from ManageSystem.
                 Product result = manageSys.searchByName(productName);
-                printText(result.toString());
+                if (result == null)
+                    printText("There's no product named " + productName);
+                else
+                    printText(result.toString());
                 frame.dispose();
             }
         });
         frame.add(submit);
     }
 
+
     private void printText(String str) {
-        JFrame f = new JFrame("result");
+        JFrame f = new JFrame("Result");
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.setSize(500, 300);
-        f.add(new JLabel(str));
-        f.setVisible(true);
-
-        JScrollPane scrollPane = new JScrollPane(f);
+        f.setLayout(new FlowLayout());
+    
+        JTextArea textArea = new JTextArea(str);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setEditable(false); // Make it non-editable
+        textArea.setPreferredSize(new Dimension(480, 250)); // Set preferred size for the JTextArea
+    
+        JScrollPane scrollPane = new JScrollPane(textArea);
         f.add(scrollPane);
+        
+        f.setVisible(true);
     }
 
     public GUI() {
