@@ -1,4 +1,5 @@
 package Code;
+
 import java.io.*;
 //java GUI package
 import javax.swing.*;
@@ -50,7 +51,10 @@ public class GUI extends JFrame {
         viewSpecialties.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                printText(manageSys.products.toString());
+                // if (manageSys.products.isEmpty())
+                //     printText("no data for now.");
+                // else
+                    printText(manageSys.products.toString());
             }
         });
 
@@ -70,16 +74,7 @@ public class GUI extends JFrame {
                     return a.getPrice() - b.getPrice();
                 });
 
-                // create window.
-                JFrame f = new JFrame();
-                f.add(new JLabel("降序排列完成"));
-                Button confirm = new Button();
-                confirm.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        f.dispose();
-                    }
-                });
+                printText("降序排序完成");
             }
         });
 
@@ -87,7 +82,7 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("添加特产");
-                // 在这里添加添加特产的逻辑
+                productForm();
             }
         });
 
@@ -111,16 +106,70 @@ public class GUI extends JFrame {
         return panel;
     }
 
+    private void productForm(){
+        
+        JFrame frame = new JFrame("添加");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(350, 500);
+
+        frame.setLayout(new FlowLayout()); // 设置布局管理器
+
+        //get information from user.
+        frame.add(new JLabel("输入产品名:"));
+        JTextField nameField = new JTextField(30);
+        nameField.setSize(getPreferredSize());
+        frame.add(nameField);
+
+        frame.add(new JLabel("输入产品市价:"));
+        JTextField priceField = new JTextField(30);
+        priceField.setSize(getPreferredSize());
+        frame.add(priceField);
+
+        frame.add(new JLabel("输入产品类别:"));
+        JTextField categoryField = new JTextField(30);
+        categoryField.setSize(getPreferredSize());
+        frame.add(categoryField);
+
+        frame.add(new JLabel("输入产品描述:"));
+        JTextField descriptionField = new JTextField(30);
+        descriptionField.setSize(getPreferredSize());
+        frame.add(descriptionField);
+
+        frame.setLocation(600, 200);
+        frame.setVisible(true);
+        //frame.pack();
+
+        JButton submit = new JButton("submit");
+        // 设置按钮的首选大小
+        submit.setPreferredSize(new Dimension(80, 30));
+        submit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Product p=new Product();
+                p.setName(nameField.getText());
+                p.setPrice(Integer.valueOf(priceField.getText()));
+                p.setCategory(categoryField.getText());
+                p.setDescription(descriptionField.getText());
+                manageSys.products.add(p);
+                System.out.println("submit pressed");
+                frame.dispose();
+            }
+        });
+        frame.add(submit);
+
+    }
+
     private void createSearchPanel() {
 
         JFrame frame = new JFrame("输入产品名");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(200, 200);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(400, 100);
 
         frame.setLayout(new FlowLayout()); // 设置布局管理器
 
         frame.add(new JLabel("输入产品名:"));
         JTextField field = new JTextField(30);
+        field.setSize(getPreferredSize());
         frame.add(field);
 
         frame.setLocation(600, 200);
@@ -145,8 +194,13 @@ public class GUI extends JFrame {
 
     private void printText(String str) {
         JFrame f = new JFrame("result");
-        f.setSize(getPreferredSize());
+        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        f.setSize(500, 300);
         f.add(new JLabel(str));
+        f.setVisible(true);
+
+        JScrollPane scrollPane = new JScrollPane(f);
+        f.add(scrollPane);
     }
 
     public GUI() {
@@ -158,9 +212,4 @@ public class GUI extends JFrame {
         add(createMenuPanel());
     }
 
-    public static void main(String[] args) throws Exception {
-        //startGUI();
-        GUI gui= new GUI();
-        gui.startGUI();
-    }
 }
