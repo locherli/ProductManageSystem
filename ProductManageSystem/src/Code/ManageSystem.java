@@ -18,7 +18,7 @@ public class ManageSystem {
     public ManageSystem() {
 
         try (
-                BufferedReader reader = new BufferedReader(new FileReader("ProductManageSystem/src/Info.txt"));) {
+                BufferedReader reader = new BufferedReader(new FileReader("Info.txt"));) {
             String line;
             while ((line = reader.readLine()) != null) {
                 Product temp = new Product();
@@ -29,7 +29,7 @@ public class ManageSystem {
                 products.add(temp);
             }
         } catch (Exception e) {
-            File f = new File("ProductManageSystem\\src\\Info.txt");
+            File f = new File("Info.txt");
             try {
                 f.createNewFile();
             } catch (IOException e1) {
@@ -69,7 +69,7 @@ public class ManageSystem {
     public void saveData() {
         try (
                 BufferedWriter writer = new BufferedWriter(
-                        new FileWriter("ProductManageSystem/src/Info.txt", false));) {
+                        new FileWriter("Info.txt", false));) {
             for (var i : products) {
                 writer.write(i.getName());
                 writer.newLine();
@@ -86,23 +86,33 @@ public class ManageSystem {
 
     }
 
-    public boolean logIn(int key) {
-        for (var i : keys) {
-            if (i == key)
+    // public boolean logIn(int key) {
+    // for (var i : keys) {
+    // if (i == key)
+    // return true;
+    // }
+    // return false;
+    // }
+
+    // public void adminMode() {
+    // System.out.println("-----------WELCOME------------");
+    // System.out.println("1.查看所有特产");
+    // System.out.println("2.查询特产");
+    // System.out.println("3.将特产按价格排序");
+    // System.out.println("4.添加特产");
+    // System.out.println("5.删除特产");
+    // System.out.println("0.退出");
+    // int choice = sc.nextInt();
+    // }
+
+    public boolean deleteProduct(String name) {
+        for (var i : products) {
+            if (i.getName().equals(name)){
+                products.remove(i);
                 return true;
+            }
         }
         return false;
-    }
-
-    public void adminMode() {
-        System.out.println("-----------WELCOME------------");
-        System.out.println("1.查看所有特产");
-        System.out.println("2.查询特产");
-        System.out.println("3.将特产按价格排序");
-        System.out.println("4.添加特产");
-        System.out.println("5.删除特产");
-        System.out.println("0.退出");
-        int choice = sc.nextInt();
     }
 
     public Product searchByName(String name) {

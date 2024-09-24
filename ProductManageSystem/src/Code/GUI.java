@@ -1,6 +1,5 @@
 package Code;
 
-import java.io.*;
 //java GUI package
 import javax.swing.*;
 import java.awt.*;
@@ -61,7 +60,6 @@ public class GUI extends JFrame {
         searchSpecialty.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // System.out.println("查询特产");
                 createSearchPanel();
             }
         });
@@ -76,7 +74,6 @@ public class GUI extends JFrame {
         addSpecialty.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("添加特产");
                 productForm();
             }
         });
@@ -84,8 +81,8 @@ public class GUI extends JFrame {
         deleteSpecialty.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("删除特产");
-                // 在这里添加删除特产的逻辑
+                createDeletePanel();
+                
             }
         });
 
@@ -100,6 +97,8 @@ public class GUI extends JFrame {
 
         return panel;
     }
+
+
 
     private void productForm() {
 
@@ -222,6 +221,39 @@ public class GUI extends JFrame {
         frame.add(submit);
     }
 
+    private void createDeletePanel(){
+        JFrame frame=new JFrame();
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(400, 200);
+
+        frame.setLayout(new FlowLayout()); // 设置布局管理器
+
+        frame.add(new JLabel("需删除的产品名:"));
+        JTextField field = new JTextField(30);
+        field.setSize(getPreferredSize());
+        frame.add(field);
+
+        frame.setLocation(600, 200);
+        frame.setVisible(true);
+
+        Button submit = new Button("submit");
+        // 设置按钮的首选大小
+        submit.setPreferredSize(new Dimension(80, 30));
+        submit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean bool= manageSys.deleteProduct(field.getText());
+                if (bool==true) {
+                    printText("成功删除");
+                }else{
+                    printText("没有名为 "+field.getText()+" 的产品");
+                }
+                frame.dispose();
+            }
+        });
+        frame.add(submit);
+    }
+
 
     private void printText(String str) {
         JFrame f = new JFrame("Result");
@@ -240,6 +272,8 @@ public class GUI extends JFrame {
         
         f.setVisible(true);
     }
+
+    
 
     public GUI() {
         setTitle("特产管理系统");
