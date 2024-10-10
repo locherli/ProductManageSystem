@@ -2,43 +2,80 @@ package Code;
 
 import java.util.*;
 import java.io.*;
-//Target:
-//1.read information from file.
-//2.can store information after project close.
-//3.can sort the product through their price(ascending and descending).
-//4.can show the description of a product.
-//5.can show all the products at once.
+import java.sql.*;
 
 public class ManageSystem {
-    static Scanner sc = new Scanner(System.in);
+    // URL格式：jdbc:mysql://主机名:端口号/数据库名
+    String url = "jdbc:mysql://localhost:3306/db_pms";
+    String user = "root"; // 数据库用户名
+    String password = "locher"; // 数据库密码
+
     List<Product> products = new ArrayList<>();
-    List<Integer> keys = new ArrayList<>();
+    List<User> users = new ArrayList<>();
 
     // Use constructor to read the files.
     public ManageSystem() {
 
-        try (
-                BufferedReader reader = new BufferedReader(new FileReader("Info.txt"));) {
-            String line;
-            while ((line = reader.readLine()) != null) {
+        // try (
+        // BufferedReader reader = new BufferedReader(new FileReader("Info.txt"));) {
+        // String line;
+        // while ((line = reader.readLine()) != null) {
+        // Product temp = new Product();
+        // temp.setName(line);
+        // temp.setPrice(Integer.valueOf(reader.readLine()));
+        // temp.setCategory(reader.readLine());
+        // temp.setDescription(reader.readLine());
+        // products.add(temp);
+        // }
+        // } catch (Exception e) {
+        // File f = new File("Info.txt");
+        // try {
+        // f.createNewFile();
+        // } catch (IOException e1) {
+        // e1.getMessage();
+        // System.out.println("error");
+        // }
+        // System.out.println(e.getMessage());
+        // }
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("error load Driver");
+        }
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url, user, password);
+            Statement stmt = conn.createStatement();
+
+            String sql = "SELECT * FROM Product";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            // read values line by line.
+            while (rs.next()) {
                 Product temp = new Product();
-                temp.setName(line);
-                temp.setPrice(Integer.valueOf(reader.readLine()));
-                temp.setCategory(reader.readLine());
-                temp.setDescription(reader.readLine());
+                temp.setName(rs.getString("name"));
+                temp.setPrice(Integer.valueOf(rs.getString("price")));
+                temp.setCategory(rs.getString("category"));
+                temp.setDescription(rs.getString("description"));
                 products.add(temp);
             }
-        } catch (Exception e) {
-            File f = new File("Info.txt");
-            try {
-                f.createNewFile();
-            } catch (IOException e1) {
-                e1.getMessage();
-                System.out.println("error");
+            sql = "select * from User;";
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                User temp = new User();
+                temp.setUserName(rs.getString("UserName"));
+                temp.setEmail(rs.getString("email"));
+                temp.setUserID(Integer.valueOf(rs.getString("UserID")));
+                temp.setHashcode_password(Long.valueOf(rs.getString("hashCode_password")));
             }
-            System.out.println(e.getMessage());
-        }
 
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (Exception e) {
+            System.out.println("error read database.");
+            e.printStackTrace();
+        }
     }
 
     // descending
@@ -67,47 +104,57 @@ public class ManageSystem {
     }
 
     public void saveData() {
-        try (
-                BufferedWriter writer = new BufferedWriter(
-                        new FileWriter("Info.txt", false));) {
-            for (var i : products) {
-                writer.write(i.getName());
-                writer.newLine();
-                writer.write(String.valueOf(i.getPrice()));
-                writer.newLine();
-                writer.write(i.getCategory());
-                writer.newLine();
-                writer.write(i.getDescription());
-                writer.newLine();
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        try (Connection conn = DriverManager.getConnection(url, user, password)) {
+            Statement stmt = conn.createStatement();
+            String sql = "insert into Product (name, price, category, description) value (?,?,?,?)";
+            PreparedStatement preStatement = conn.prepareStatement(sql);
+            products.forEach(p -> {
+                try {
+                    preStatement.setString(1, p.getName());
+                    preStatement.setInt(2, p.getPrice());
+                    preStatement.setString(3, p.getCategory());
+                    preStatement.setString(4, p.getDescription());
+                    // 执行插入操作
+                    int affectedRows = preStatement.executeUpdate();
+                    if (affectedRows > 0) {
+                        System.out.println("Data inserted successfully.");
+                    } else {
+                        System.out.println("No rows affected.");
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
 
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    // public boolean logIn(int key) {
-    // for (var i : keys) {
-    // if (i == key)
-    // return true;
+    // public void saveData() {
+    // try (
+    // BufferedWriter writer = new BufferedWriter(
+    // new FileWriter("Info.txt", false));) {
+    // for (var i : products) {
+    // writer.write(i.getName());
+    // writer.newLine();
+    // writer.write(String.valueOf(i.getPrice()));
+    // writer.newLine();
+    // writer.write(i.getCategory());
+    // writer.newLine();
+    // writer.write(i.getDescription());
+    // writer.newLine();
     // }
-    // return false;
+    // } catch (Exception e) {
+    // System.out.println(e.getMessage());
     // }
 
-    // public void adminMode() {
-    // System.out.println("-----------WELCOME------------");
-    // System.out.println("1.查看所有特产");
-    // System.out.println("2.查询特产");
-    // System.out.println("3.将特产按价格排序");
-    // System.out.println("4.添加特产");
-    // System.out.println("5.删除特产");
-    // System.out.println("0.退出");
-    // int choice = sc.nextInt();
     // }
 
     public boolean deleteProduct(String name) {
         for (var i : products) {
-            if (i.getName().equals(name)){
+            if (i.getName().equals(name)) {
                 products.remove(i);
                 return true;
             }

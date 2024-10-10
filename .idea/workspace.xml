@@ -4,16 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2adee7d8-9fc6-4392-b00c-d7c68f35001e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ProductManageSystem.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ProductManageSystem/src/Info.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/ProductManageSystem.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProductManageSystem/src/Code/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProductManageSystem/src/Code/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gitPush.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/setDatabase.sql" beforeDir="false" />
+    <list default="true" id="a3ac24d3-08c7-4552-99a8-487f38f8e2de" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java_8_0_28.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ProductManageSystem/src/Code/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$12.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Info.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProductManageSystem.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ProductManageSystem.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProductManageSystem/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProductManageSystem/src/Code/ManageSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProductManageSystem/src/Code/ManageSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProductManageSystem/src/Info.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$11.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI$9.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/GUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/ManageSystem.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ProductManageSystem/Code/ManageSystem.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,33 +36,36 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
-  <component name="ProjectId" id="2mSiu2TpDSKcrRBpwmzYKRXqlqN" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2nFVfaNsYc79QTuFMK9RDeHqOXE" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Application.Main.executor": "Run",
+    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "feat",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/CODE/java/ProductManageSystem",
+    "last_opened_file_path": "C:/Users/locher",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql_aurora",
+      "mysql"
+    ]
   }
 }]]></component>
   <component name="RunManager">
@@ -83,19 +99,17 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="2adee7d8-9fc6-4392-b00c-d7c68f35001e" name="Changes" comment="" />
-      <created>1727076597398</created>
+      <changelist id="a3ac24d3-08c7-4552-99a8-487f38f8e2de" name="Changes" comment="" />
+      <created>1728568916144</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1727076597398</updated>
-      <workItem from="1727076598069" duration="825000" />
+      <updated>1728568916144</updated>
+      <workItem from="1728568917610" duration="312000" />
+      <workItem from="1728569296230" duration="1563000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>
