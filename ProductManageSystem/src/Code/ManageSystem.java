@@ -12,31 +12,10 @@ public class ManageSystem {
 
     List<Product> products = new ArrayList<>();
     List<User> users = new ArrayList<>();
+    public int index;
 
     // Use constructor to read the files.
     public ManageSystem() {
-
-        // try (
-        // BufferedReader reader = new BufferedReader(new FileReader("Info.txt"));) {
-        // String line;
-        // while ((line = reader.readLine()) != null) {
-        // Product temp = new Product();
-        // temp.setName(line);
-        // temp.setPrice(Integer.valueOf(reader.readLine()));
-        // temp.setCategory(reader.readLine());
-        // temp.setDescription(reader.readLine());
-        // products.add(temp);
-        // }
-        // } catch (Exception e) {
-        // File f = new File("Info.txt");
-        // try {
-        // f.createNewFile();
-        // } catch (IOException e1) {
-        // e1.getMessage();
-        // System.out.println("error");
-        // }
-        // System.out.println(e.getMessage());
-        // }
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -69,6 +48,7 @@ public class ManageSystem {
                 temp.setHashcode_password(Long.valueOf(rs.getString("hashCode_password")));
             }
 
+            index=products.size();
             rs.close();
             stmt.close();
             conn.close();
@@ -106,8 +86,13 @@ public class ManageSystem {
     public void saveData() {
         try (Connection conn = DriverManager.getConnection(url, user, password)) {
             Statement stmt = conn.createStatement();
+
+            String truncateCMD="truncate table product";
+            stmt.executeUpdate(truncateCMD);
+
             String sql = "insert into Product (name, price, category, description) value (?,?,?,?)";
             PreparedStatement preStatement = conn.prepareStatement(sql);
+
             products.forEach(p -> {
                 try {
                     preStatement.setString(1, p.getName());
@@ -124,33 +109,14 @@ public class ManageSystem {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-
             });
-
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
+
     }
 
-    // public void saveData() {
-    // try (
-    // BufferedWriter writer = new BufferedWriter(
-    // new FileWriter("Info.txt", false));) {
-    // for (var i : products) {
-    // writer.write(i.getName());
-    // writer.newLine();
-    // writer.write(String.valueOf(i.getPrice()));
-    // writer.newLine();
-    // writer.write(i.getCategory());
-    // writer.newLine();
-    // writer.write(i.getDescription());
-    // writer.newLine();
-    // }
-    // } catch (Exception e) {
-    // System.out.println(e.getMessage());
-    // }
-
-    // }
 
     public boolean deleteProduct(String name) {
         for (var i : products) {
