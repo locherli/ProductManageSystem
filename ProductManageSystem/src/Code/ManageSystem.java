@@ -12,31 +12,10 @@ public class ManageSystem {
 
     List<Product> products = new ArrayList<>();
     List<User> users = new ArrayList<>();
+    public int index;
 
     // Use constructor to read the files.
     public ManageSystem() {
-
-        // try (
-        // BufferedReader reader = new BufferedReader(new FileReader("Info.txt"));) {
-        // String line;
-        // while ((line = reader.readLine()) != null) {
-        // Product temp = new Product();
-        // temp.setName(line);
-        // temp.setPrice(Integer.valueOf(reader.readLine()));
-        // temp.setCategory(reader.readLine());
-        // temp.setDescription(reader.readLine());
-        // products.add(temp);
-        // }
-        // } catch (Exception e) {
-        // File f = new File("Info.txt");
-        // try {
-        // f.createNewFile();
-        // } catch (IOException e1) {
-        // e1.getMessage();
-        // System.out.println("error");
-        // }
-        // System.out.println(e.getMessage());
-        // }
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -69,6 +48,7 @@ public class ManageSystem {
                 temp.setHashcode_password(Long.valueOf(rs.getString("hashCode_password")));
             }
 
+            index=products.size();
             rs.close();
             stmt.close();
             conn.close();
@@ -108,12 +88,13 @@ public class ManageSystem {
             Statement stmt = conn.createStatement();
             String sql = "insert into Product (name, price, category, description) value (?,?,?,?)";
             PreparedStatement preStatement = conn.prepareStatement(sql);
-            products.forEach(p -> {
+
+            for (int i=index;i<products.size();i++){
                 try {
-                    preStatement.setString(1, p.getName());
-                    preStatement.setInt(2, p.getPrice());
-                    preStatement.setString(3, p.getCategory());
-                    preStatement.setString(4, p.getDescription());
+                    preStatement.setString(1, products.get(index).getName());
+                    preStatement.setInt(2, products.get(index).getPrice());
+                    preStatement.setString(3, products.get(index).getCategory());
+                    preStatement.setString(4, products.get(index).getDescription());
                     // 执行插入操作
                     int affectedRows = preStatement.executeUpdate();
                     if (affectedRows > 0) {
@@ -124,8 +105,27 @@ public class ManageSystem {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
+            }
 
-            });
+
+//            products.forEach(p -> {
+//                try {
+//                    preStatement.setString(1, p.getName());
+//                    preStatement.setInt(2, p.getPrice());
+//                    preStatement.setString(3, p.getCategory());
+//                    preStatement.setString(4, p.getDescription());
+//                    // 执行插入操作
+//                    int affectedRows = preStatement.executeUpdate();
+//                    if (affectedRows > 0) {
+//                        System.out.println("Data inserted successfully.");
+//                    } else {
+//                        System.out.println("No rows affected.");
+//                    }
+//                } catch (SQLException e) {
+//                    throw new RuntimeException(e);
+//                }
+//
+//            });
 
         } catch (Exception e) {
             e.printStackTrace();

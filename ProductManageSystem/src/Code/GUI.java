@@ -265,9 +265,10 @@ public class GUI extends JFrame {
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setEditable(false); // Make it non-editable
-        textArea.setPreferredSize(new Dimension(480, 250)); // Set preferred size for the JTextArea
+        textArea.setPreferredSize(new Dimension(480, 700)); // Set preferred size for the JTextArea
     
         JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         f.add(scrollPane);
         
         f.setVisible(true);
