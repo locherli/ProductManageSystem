@@ -6,6 +6,44 @@ public class User {
     private String email;
     private long hashcode_password;
 
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+        result = prime * result + userID;
+        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        result = prime * result + (int) (hashcode_password ^ (hashcode_password >>> 32));
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        User other = (User) obj;
+        if (userName == null) {
+            if (other.userName != null)
+                return false;
+        } else if (!userName.equals(other.userName))
+            return false;
+        if (userID != other.userID)
+            return false;
+        if (email == null) {
+            if (other.email != null)
+                return false;
+        } else if (!email.equals(other.email))
+            return false;
+        if (hashcode_password != other.hashcode_password)
+            return false;
+        return true;
+    }
+
     public User() {
     }
 

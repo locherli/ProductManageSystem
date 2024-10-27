@@ -6,12 +6,13 @@ import java.sql.*;
 
 public class ManageSystem {
     // URL格式：jdbc:mysql://主机名:端口号/数据库名
-    String url = "jdbc:mysql://localhost:3306/db_pms";
+    String url = "jdbc:mysql://121.40.20.237:3306/db_pms";
     String user = "locher"; // 数据库用户名
     String password = "locher@123"; // 数据库密码
 
     List<Product> products = new ArrayList<>();
-    List<User> users = new ArrayList<>();
+    // List<User> users = new ArrayList<>();
+    HashSet<User> users = new HashSet<>();
     public boolean isAdmin = false;
 
     // Use constructor to read the files.
@@ -48,6 +49,30 @@ public class ManageSystem {
                 temp.setHashcode_password(Long.valueOf(rs.getString("hashCode_password")));
             }
 
+            sql = "select * from User";
+            rs = stmt.executeQuery(sql);
+            // private String userName;
+            // private int userID;
+            // private String email;
+            // private long hashcode_password;
+
+            // create table User(
+            // id int auto_increment primary key,
+            // userName varchar(64),
+            // email varchar(32),
+            // userID int,
+            // hashCode_password long
+            // );
+
+            while (rs.next()) {
+                User temp = new User();
+                temp.setUserName(rs.getString("userName"));
+                temp.setUserID(rs.getInt("userID"));
+                temp.setEmail(rs.getString("email"));
+                temp.setHashcode_password(rs.getLong("hashCode_password"));
+                users.add(temp);
+            }
+
             rs.close();
             stmt.close();
             conn.close();
@@ -55,6 +80,35 @@ public class ManageSystem {
             System.out.println("error read database.");
             e.printStackTrace();
         }
+    }
+
+    public boolean signIn(User newUser) {
+        boolean isLegal = true;
+        for (var i : users) {
+            if (i.getUserName().equals(newUser.getUserName()))
+                isLegal = false;
+        }
+
+        users.add(newUser);
+        return isLegal;
+    }
+
+    public boolean login(User userMsg) {
+        users.forEach((i) -> {
+            if (i.getEmail().equals(userMsg.getEmail())
+                    && i.getHashcode_password() == userMsg.getHashcode_password()) {
+                isAdmin = true;
+            }
+            if (i.getUserName().equals(userMsg.getUserName())
+                    && i.getHashcode_password() == userMsg.getHashcode_password()) {
+                isAdmin = true;
+            }
+        });
+
+        if (isAdmin)
+            return true;
+        else
+            return false;
     }
 
     // descending
@@ -101,7 +155,7 @@ public class ManageSystem {
                     // 执行插入操作
                     int affectedRows = preStatement.executeUpdate();
                     if (affectedRows > 0) {
-                        System.out.println("Data inserted successfully.");
+                        System.out.println("Product data inserted successfully.");
                     } else {
                         System.out.println("No rows affected.");
                     }
@@ -109,13 +163,43 @@ public class ManageSystem {
                     throw new RuntimeException(e);
                 }
             });
+            // private String userName;
+            // private int userID;
+            // private String email;
+            // private long hashcode_password;
+
+            // create table User(
+            // id int auto_increment primary key,
+            // userName varchar(64),
+            // email varchar(32),
+            // userID int,
+            // hashCode_password long
+            // );
+
+            sql = "insert into User (userName, email, userID, hashCode_password) value(?,?,?,?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            users.forEach(i -> {
+                try {
+                    ps.setString(1, i.getUserName());
+                    ps.setString(2, i.getEmail());
+                    ps.setInt(3, i.getUserID());
+                    ps.setLong(4, i.getHashcode_password());
+
+                    ps.executeUpdate();
+                    System.out.println("user data insert success.");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+            });
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
 
     }
-
 
     public boolean deleteProduct(String name) {
         for (var i : products) {

@@ -28,7 +28,7 @@ public class GUI extends JFrame {
 
     private JPanel createMenuPanel() {
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(7, 1)); // 7行1列的网格布局
+        panel.setLayout(new GridLayout(8, 1)); // 7行1列的网格布局
 
         // 创建按钮并添加到面板
         JButton viewSpecialties = new JButton("查看所有特产");
@@ -37,6 +37,7 @@ public class GUI extends JFrame {
         JButton addSpecialty = new JButton("添加特产");
         JButton alterSpecialty = new JButton("更改产品信息");
         JButton deleteSpecialty = new JButton("删除特产");
+        JButton signIn = new JButton("注册");
         JButton exit = new JButton("退出");
 
         // 添加按钮到面板
@@ -46,6 +47,7 @@ public class GUI extends JFrame {
         panel.add(addSpecialty);
         panel.add(alterSpecialty);
         panel.add(deleteSpecialty);
+        panel.add(signIn);
         panel.add(exit);
 
         // 为每个按钮添加事件监听器
@@ -76,23 +78,35 @@ public class GUI extends JFrame {
         addSpecialty.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                productForm();
+                if (!manageSys.isAdmin)
+                    createLoginPanel();
+                else
+                    productForm();
             }
         });
 
         alterSpecialty.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createAlterPanel();
+                if (!manageSys.isAdmin)
+                    createLoginPanel();
+                else
+                    createAlterPanel();
             }
         });
 
         deleteSpecialty.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createDeletePanel();
-
+                if (!manageSys.isAdmin)
+                    createLoginPanel();
+                else
+                    createDeletePanel();
             }
+        });
+
+        signIn.addActionListener(e -> {
+            createSignInPanel();
         });
 
         exit.addActionListener(new ActionListener() {
@@ -171,7 +185,6 @@ public class GUI extends JFrame {
 
         JTextField nameField = new JTextField(30);
         f.add(nameField);
-  
 
         f.add(new JLabel("<html><br></html>"));
 
@@ -322,6 +335,77 @@ public class GUI extends JFrame {
                 frame.dispose();
             }
         });
+        frame.add(submit);
+    }
+
+    public void createLoginPanel() {
+        JFrame frame = new JFrame("登入");
+        frame.setLayout(new FlowLayout());
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setVisible(true);
+        frame.setSize(300, 200);
+
+        frame.add(new JLabel("邮箱或用户名："));
+        JTextField accountField = new JTextField(16);
+        frame.add(accountField);
+
+        frame.add(new JLabel("输入密码："));
+        JTextField passwordField = new JTextField(16);
+        frame.add(passwordField);
+
+        JButton submit = new JButton("登入");
+        submit.addActionListener((e -> {
+            User info = new User();
+            info.setEmail(accountField.getText());
+            info.setUserName(accountField.getText());
+            info.setHashcode_password(passwordField.getText().hashCode());
+            manageSys.login(info);
+
+            if (manageSys.isAdmin) {
+                printText(" login success.");
+                frame.dispose();
+            } else
+                printText(" user do not exist.");
+        }));
+        frame.add(submit);
+    }
+
+    public void createSignInPanel() {
+        JFrame frame = new JFrame("注册");
+        frame.setLayout(new FlowLayout());
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setVisible(true);
+        frame.setSize(250, 300);
+
+        frame.add(new JLabel("邮箱："));
+        JTextField emailField = new JTextField(16);
+        frame.add(emailField);
+
+        frame.add(new JLabel("用户名："));
+        JTextField nameField = new JTextField(16);
+        frame.add(nameField);
+
+        frame.add(new JLabel("输入密码："));
+        JTextField passwordField = new JTextField(16);
+        frame.add(passwordField);
+
+        JButton submit = new JButton("注册");
+        submit.addActionListener((e -> {
+
+            User newUser = new User();
+            newUser.setUserID(manageSys.users.size() + 1);
+            newUser.setUserName(nameField.getText());
+            newUser.setEmail(emailField.getText());
+            newUser.setHashcode_password(passwordField.getText().hashCode());
+
+            boolean isGood = manageSys.signIn(newUser);
+            if (isGood) {
+                printText("用户创建成功");
+                System.out.println(newUser);
+                frame.dispose();
+            } else
+                printText("用户名已被使用");
+        }));
         frame.add(submit);
     }
 
