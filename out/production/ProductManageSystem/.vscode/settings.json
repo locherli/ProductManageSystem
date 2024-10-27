@@ -1,0 +1,7 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "ProductManageSystem/lib/mysql-connector-java-8.0.28.jar",
+        "ProductManageSystem/lib/junit-4.13.2.jar"
+    ]
+}
