@@ -6,9 +6,9 @@ import java.sql.*;
 
 public class ManageSystem {
     // URL格式：jdbc:mysql://主机名:端口号/数据库名
-    String url = "jdbc:mysql://121.40.20.237:3306/db_pms";
-    String user = "locher"; // 数据库用户名
-    String password = "locher@123"; // 数据库密码
+    String url = "jdbc:mysql://localhost:3306/db_pms";
+    String user = "root"; // 数据库用户名
+    String password = "your password"; // 数据库密码
 
     List<Product> products = new ArrayList<>();
     // List<User> users = new ArrayList<>();
