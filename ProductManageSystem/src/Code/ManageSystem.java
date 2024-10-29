@@ -39,30 +39,18 @@ public class ManageSystem {
                 temp.setDescription(rs.getString("description"));
                 products.add(temp);
             }
-            sql = "select * from User;";
-            rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                User temp = new User();
-                temp.setUserName(rs.getString("UserName"));
-                temp.setEmail(rs.getString("email"));
-                temp.setUserID(Integer.valueOf(rs.getString("UserID")));
-                temp.setHashcode_password(Long.valueOf(rs.getString("hashCode_password")));
-            }
-
-            sql = "select * from User";
-            rs = stmt.executeQuery(sql);
-            // private String userName;
-            // private int userID;
-            // private String email;
-            // private long hashcode_password;
 
             // create table User(
-            // id int auto_increment primary key,
-            // userName varchar(64),
-            // email varchar(32),
-            // userID int,
-            // hashCode_password long
+            //     id int auto_increment primary key,
+            //     userName varchar(64),
+            //     email varchar(32),
+            //     userID int,
+            //     hashCode_password long
             // );
+            
+            sql = "select * from User";
+            rs = stmt.executeQuery(sql);
+
 
             while (rs.next()) {
                 User temp = new User();
@@ -88,8 +76,9 @@ public class ManageSystem {
             if (i.getUserName().equals(newUser.getUserName()))
                 isLegal = false;
         }
-
-        users.add(newUser);
+        if (isLegal) {
+            users.add(newUser);
+        }
         return isLegal;
     }
 
